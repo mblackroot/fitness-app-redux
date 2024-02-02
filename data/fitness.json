@@ -1,0 +1,29 @@
+{
+  "fitnessData": [
+    {
+      "id": 1,
+      "title": "Full Body",
+      "imageUrl": "https://prod-ne-cdn-media.puregym.com/media/819394/gym-workout-plan-for-gaining-muscle_header.jpg?quality=80"
+    },
+    {
+      "id": 2,
+      "title": "Cardio Workout",
+      "imageUrl": "https://prod-ne-cdn-media.puregym.com/media/823924/the-best-gym-cardio-workouts_blogheader-notitle.jpg?quality=80&width=992"
+    },
+    {
+      "id": 3,
+      "title": "Strength Training",
+      "imageUrl": "https://media.istockphoto.com/id/1395337483/photo/sports-and-gym-activities.jpg?s=612x612&w=0&k=20&c=lev6DFIvb5CVjdxSxuURswdZYLNHZPT4Y44iUkgm2q4="
+    },
+    {
+      "id": 4,
+      "title": "Yoga",
+      "imageUrl": "https://c.ndtvimg.com/2021-12/7lftbj38_yoga_625x300_15_December_21.jpg"
+    },
+    {
+      "id": 5,
+      "title": "Weightlifting",
+      "imageUrl": "https://fitness.edu.au/wp-content/uploads/2022/11/img-fitness-coach-thumb.jpg"
+    }
+  ]
+}

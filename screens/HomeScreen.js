@@ -1,101 +1,86 @@
+import React from "react";
 import {
   View,
+  StyleSheet,
   Text,
   SafeAreaView,
   Image,
-  TextInput,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
+import TrainingCard from "../components/TrainingCard";
+import Data from "../data/fitness.js";
+import { useDispatch, useSelector } from "react-redux";
 
-import { useEffect, useState } from "react";
-import React from "react";
-import {
-  UserIcon,
-  ChevronDownIcon,
-  AdjustmentsVerticalIcon,
-  MagnifyingGlassIcon,
-  AdjustemntsIcon,
-} from "react-native-heroicons/outline";
-import Categories from "../components/Categories";
-import FeaturedRow from "../components/FeaturedRow";
-import sanityClient from "../sanity";
+import { ArrowPathIcon } from "react-native-heroicons/outline";
+import { reset } from "../redux/features/statsSlice.js";
 
 const HomeScreen = () => {
-  const [featuredCategories, setFeaturedCategories] = useState([]);
-
-  useEffect(() => {
-    sanityClient
-      .fetch(
-        `
-    *[_type == "featured"]{
-      ...,
-      restaurants[]->{
-        ...,
-        dishes[]->,
-        type-> {
-          name
-        }
-      },
-    }
-    `
-      )
-      .then((data) => setFeaturedCategories(data));
-  }, []);
-
+  const { workouts, kcal, minutes } = useSelector((state) => state.stats);
+  const dispatch = useDispatch();
   return (
-    <SafeAreaView className="pt-5">
-      {/* Header Part 1 */}
-      <View className="flex-row mx-4 space-x-2 items-center">
-        <Image
-          source={{
-            uri: "https://links.papareact.com/wru",
-          }}
-          className="bg-gray-200 w-10 h-10 rounded-full"
-        />
-        <View className="flex-1">
-          <Text className="font-bold text-gray-400 text-xs">Deliver now!</Text>
-          <Text className="font-extrabold text-xl">
-            Current Location
-            <ChevronDownIcon size={20} color="#00CCBB" />
-          </Text>
+    <SafeAreaView>
+      <ScrollView>
+        <View className="bg-orange-400 h-[190px]">
+          <View className="mt-2 mx-2">
+            {/* Header title */}
+            <Text className="uppercase text-white font-bold text-2xl">
+              Home Workout
+            </Text>
+
+            {/* Stats */}
+            <View className="flex-row justify-between mx-6 mt-3">
+              <View className="items-center">
+                <Text className="text-white font-bold text-2xl">
+                  {workouts}
+                </Text>
+                <Text className="text-gray-100 font-semibold">Workouts</Text>
+              </View>
+              <View className="items-center">
+                <Text className="text-white font-bold text-2xl">{kcal}</Text>
+                <Text className="text-gray-100 font-semibold">KCAL</Text>
+              </View>
+              <View className="items-center">
+                <Text className="text-white font-bold text-2xl">{minutes}</Text>
+                <Text className="text-gray-100 font-semibold">Minutes</Text>
+              </View>
+            </View>
+
+            {/* Header Image */}
+            <View className="mx-8 mt-3">
+              <Image
+                source={{
+                  uri: "https://www.muscleandfitness.com/wp-content/uploads/2016/09/Bodybuilder-Working-Out-His-Upper-Body-With-Cable-Crossover-Exercise.jpg?quality=86&strip=all",
+                }}
+                className="h-[140px] w-full rounded-[30px] opacity-90"
+                resizeMode="cover"
+              />
+            </View>
+          </View>
         </View>
-        <UserIcon size={35} color="#00CCBB" />
-      </View>
 
-      {/* Header Part 2 */}
-      <View className="flex-row mx-4 items-center space-x-2">
-        <View className="flex-row flex-1 bg-gray-200 p-3 space-x-2 rounded-md">
-          <MagnifyingGlassIcon color="gray" size={20} />
-          <TextInput
-            placeholder="Restaurants and cuisines"
-            keyboardType="default"
-          />
+        <TouchableOpacity
+          onPress={() => dispatch(reset())}
+          className="absolute right-11 top-2 rounded-full bg-orange-100 p-1"
+        >
+          <ArrowPathIcon size={20} color="black" />
+        </TouchableOpacity>
+
+        <View className="my-20 mx-5">
+          {Data.map((item) => (
+            <TrainingCard
+              key={item.id}
+              cardTitle={item.name}
+              imgUrl={item.image}
+              exercises={item.excersises}
+            />
+          ))}
         </View>
-        <AdjustmentsVerticalIcon size={20} color="#00BBCC" />
-      </View>
-
-      {/* Scrollable Container */}
-      <ScrollView className="">
-        {/* Categories */}
-        <Categories />
-
-        {/* Featured */}
-
-        {featuredCategories?.map((category, index, array) => (
-          <FeaturedRow
-            key={category._id}
-            id={category._id}
-            title={category.name}
-            description={category.short_description}
-            /* isLast is used to check if the current element is the last one in the array
-              so that we can add margin bottom to it, in order for it to be totally visible
-            */
-            isLast={index == array.length - 1 ? true : false}
-          />
-        ))}
       </ScrollView>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({});
 
 export default HomeScreen;
